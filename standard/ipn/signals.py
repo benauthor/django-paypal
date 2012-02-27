@@ -7,7 +7,7 @@ http://code.djangoproject.com/wiki/Signals#Helppost_saveseemstobeemittedtwicefor
 from django.dispatch import Signal
 
 # Sent when a payment is successfully processed.
-payment_was_successful = Signal()
+payment_was_successful = Signal(providing_args=["user", "request"])
 
 # Sent when a payment is flagged.
 payment_was_flagged = Signal()
