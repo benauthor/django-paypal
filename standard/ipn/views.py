@@ -19,8 +19,6 @@ def ipn(request, item_check_callable=None):
     flag = None
     ipn_obj = None
     form = PayPalIPNForm(request.POST)
-    # get the userid out of the custom field passed to paypal
-    userid = request.POST['custom']
     if form.is_valid():
         try:
             ipn_obj = form.save(commit=False)
@@ -40,10 +38,8 @@ def ipn(request, item_check_callable=None):
         # Secrets should only be used over SSL.
         if request.is_secure() and 'secret' in request.GET:
             ipn_obj.verify_secret(form, request.GET['secret'])
-            ipn_obj.send_signals(userid)
         else:
             ipn_obj.verify(item_check_callable)
-            ipn_obj.send_signals(userid)
 
     ipn_obj.save()
     return HttpResponse("OKAY")
