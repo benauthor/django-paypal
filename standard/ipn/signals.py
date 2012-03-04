@@ -7,19 +7,19 @@ http://code.djangoproject.com/wiki/Signals#Helppost_saveseemstobeemittedtwicefor
 from django.dispatch import Signal
 
 # Sent when a payment is successfully processed.
-payment_was_successful = Signal(providing_args=["user", "request"])
+payment_was_successful = Signal(providing_args=["user"])
 
 # Sent when a payment is flagged.
-payment_was_flagged = Signal()
+payment_was_flagged = Signal(providing_args=["user"])
 
 # Sent when a subscription was cancelled.
-subscription_cancel = Signal()
+subscription_cancel = Signal(providing_args=["user"])
 
 # Sent when a subscription expires.
-subscription_eot = Signal()
+subscription_eot = Signal(providing_args=["user"])
 
 # Sent when a subscription was modified.
-subscription_modify = Signal()
+subscription_modify = Signal(providing_args=["user"])
 
 # Sent when a subscription is created.
-subscription_signup = Signal()
+subscription_signup = Signal(providing_args=["user"])

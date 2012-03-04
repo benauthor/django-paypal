@@ -21,21 +21,21 @@ class PayPalIPN(PayPalStandardBase):
         if self.response != "VERIFIED":
             self.set_flag("Invalid postback. (%s)" % self.response)
             
-    def send_signals(self):
+    def send_signals(self, userid=None):
         """Shout for the world to hear whether a txn was successful."""
         # Transaction signals:
         if self.is_transaction():
             if self.flag:
-                payment_was_flagged.send(sender=self)
+                payment_was_flagged.send(sender=self, user=userid)
             else:
-                payment_was_successful.send(sender=self)
+                payment_was_successful.send(sender=self, user=userid)
         # Subscription signals:
         else:
             if self.is_subscription_cancellation():
-                subscription_cancel.send(sender=self)
+                subscription_cancel.send(sender=self, user=userid)
             elif self.is_subscription_signup():
-                subscription_signup.send(sender=self)
+                subscription_signup.send(sender=self, user=userid)
             elif self.is_subscription_end_of_term():
-                subscription_eot.send(sender=self)
+                subscription_eot.send(sender=self, user=userid)
             elif self.is_subscription_modified():
-                subscription_modify.send(sender=self)            
+                subscription_modify.send(sender=self, user=userid)
